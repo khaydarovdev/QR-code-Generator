@@ -1,10 +1,14 @@
 <template>
-	<div>
-		<input type="text" placeholder="Generate" v-model="QRValue" />
-		<!-- <qrcode-vue v-if="QRValue" :value="QRValue" size="250" level="H" id="vl" /> -->
-		<qrcode-vue v-if="QRValue" :value="QRValue" :size="QRSize" level="H" id="vl" />
+	<div class="container">
+		<div class="content" :class="{ 'moved-up': QRValue }">
+			<input type="text" placeholder="Generate" v-model="QRValue" />
+			<transition name="fade">
+				<qrcode-vue v-if="QRValue" :value="QRValue" size="250" level="H" id="vl" />
+			</transition>
+		</div>
 	</div>
 </template>
+
 <script>
 import QrcodeVue from 'qrcode.vue';
 export default {
@@ -32,17 +36,29 @@ export default {
 };
 </script>
 <style scoped>
-div {
+.container {
+	height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.content {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	min-height: 100vh;
+	transition: transform 0.4s ease-in-out;
 }
+
+.content.moved-up {
+	transform: translateY(-100px);
+}
+
 input {
 	width: 450px;
 	height: 30px;
-	margin: 120px;
+	margin: 30px;
 	border: none;
 	background-color: white;
 	border-radius: 15px;
@@ -50,20 +66,19 @@ input {
 		inset -50px -50px 50px rgba(255, 255, 255, 0.2), inset 50px 50px 50px rgba(0, 0, 0, 0.1);
 	padding: 10px;
 }
+
 #vl {
 	user-select: none;
+	margin-top: 20px;
 }
 
-@media (max-width: 640px) {
-	input {
-		width: 90%;
-		margin: 60px 0;
-		font-size: 16px;
-		/* or simplified shadow for cleaner mobile look */
-	}
-	div {
-		justify-content: flex-start;
-		padding-top: 100px;
-	}
+/* Optional fade animation for the QR */
+.fade-enter-active,
+.fade-leave-active {
+	transition: opacity 0.3s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+	opacity: 0;
 }
 </style>
