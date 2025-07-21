@@ -50,6 +50,7 @@ input {
 	padding: 10px;
 	margin-bottom: 40px;
 	transition: all 0.3s ease;
+	font-size: 16px; /* 👈 ADD THIS */
 }
 
 /* QR code placeholder */
